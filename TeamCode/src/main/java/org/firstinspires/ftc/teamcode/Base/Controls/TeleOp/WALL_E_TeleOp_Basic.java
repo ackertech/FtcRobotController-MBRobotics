@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Base.Controls.TeleOp;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
@@ -7,7 +8,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.teamcode.BNI_Team.Connor.Robots.The_Mighty_and_All_Powerful_Hand;
 import org.firstinspires.ftc.teamcode.Base.Robot.WalleBot;
 
-//@Disabled
+@Disabled
 @TeleOp(name = "Christmas: WALL-E",group="iLab")
 public class WALL_E_TeleOp_Basic extends OpMode {
 
