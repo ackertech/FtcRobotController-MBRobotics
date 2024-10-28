@@ -66,13 +66,13 @@ public class TankTeleOpDriveAdv extends OpMode {
 
     public void driveControl() {
 
-        if (gamepad1.left_bumper) {
+        if (gamepad1.a) {
             driverStyle = Style.ARCADE1;
         }
-        if (gamepad1.right_bumper) {
+        if (gamepad1.b) {
             driverStyle = Style.ARCADE2;
         }
-        if (gamepad1.right_stick_button) {
+        if (gamepad1.y) {
             driverStyle = Style.TANK;
         }
 

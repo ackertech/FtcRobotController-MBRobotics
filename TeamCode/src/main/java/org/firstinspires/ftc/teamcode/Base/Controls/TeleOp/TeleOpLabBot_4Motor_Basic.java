@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Base.Robot.LabBot_4Motor;
 
-//@Disabled
+@Disabled
 // This tells the drive station to show this program under the TeleOp section with name we define
 @TeleOp(name = "LabBot 4Motor Basic")
 

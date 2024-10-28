@@ -1,13 +1,14 @@
 package org.firstinspires.ftc.teamcode.Robotics_Class.Bot_SpeedySnail;
 
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Base.Robot.CarnivalBot;
 
-//@Disabled
+@Disabled
 @TeleOp (name = "Speedy Snail Carnival")
 public class SpeedySnailCarnivalTeleOp extends OpMode {
 
