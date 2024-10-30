@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.Base.Robot.TankBot;
 public class TankTeleOpDriveAdv extends OpMode {
 
     //TeleOp Driving Behavior Variables
-    public double speedMultiply = .75;
+    public double speedMultiply = 1;
     public enum Style {
         ARCADE1, ARCADE2, TANK
     }
@@ -23,10 +23,25 @@ public class TankTeleOpDriveAdv extends OpMode {
     public double rightSidePower;
 
     // GamePad Variables
-    double leftStickYVal;
-    double leftStickXVal;
-    double rightStickXVal;
-    double rightStickYVal;
+    public double leftStickYVal;
+    public double leftStickXVal;
+    public double rightStickXVal;
+    public double rightStickYVal;
+
+    public double frontLeftSpeed;
+    public double frontRightSpeed;
+    public double rearLeftSpeed;
+    public double rearRightSpeed;
+
+    public double powerThreshold = 0;
+
+    public float leftStickY1;
+    public float rightStickY1;
+    public float leftStickX1;
+    public float rightStickX1;
+
+    public double leftMotorValue;
+    public double rightMotorValue;
 
 
     // Construct the Physical Bot based on the Robot Class
@@ -39,12 +54,18 @@ public class TankTeleOpDriveAdv extends OpMode {
 
         Bruno.initRobot(hardwareMap);
 
+        leftStickY1 = 0;
+        leftStickX1 = 0;
+        rightStickY1 = 0;
+        rightStickX1 = 0;
+
     }
 
     // TeleOp Loop Method.  This start AFTER clicking the Play Button on the Driver Station Phone
 
     public void loop() {
 
+        getController();
         speedControl();
         driveControl();
         telemetryOutput();
@@ -64,6 +85,15 @@ public class TankTeleOpDriveAdv extends OpMode {
 
     /**  ********  DRIVING METHODS USING GAMEPAD 1 *************      **/
 
+    public void getController() {
+        leftStickY1 = gamepad1.left_stick_y;
+        leftStickX1 = gamepad1.left_stick_x;
+        rightStickY1 = gamepad1.right_stick_y;
+        rightStickX1 = gamepad1.right_stick_x;
+
+
+    }
+
     public void driveControl() {
 
         if (gamepad1.a) {
@@ -80,61 +110,39 @@ public class TankTeleOpDriveAdv extends OpMode {
 
             case ARCADE1:
 
-                leftStickYVal = gamepad1.left_stick_y;
-                leftStickYVal = Range.clip(leftStickYVal, -1, 1);
-                leftStickXVal = gamepad1.left_stick_x;
-                leftStickXVal = Range.clip(leftStickXVal, -1, 1);
-
-                if (leftStickYVal < -0.1) {
-                    Bruno.tankDriveForward(speedMultiply*leftStickYVal);
-                } else if (leftStickYVal > 0.1) {
-                    Bruno.tankDriveBackward(speedMultiply*leftStickYVal);
-                } else if (leftStickXVal > 0.1) {
-                    Bruno.tankTurnRight(speedMultiply*leftStickXVal);
-                } else if (leftStickXVal < -0.1) {
-                    Bruno.tankTurnLeft(speedMultiply*leftStickXVal);
-                } else {
-                    Bruno.stopMotors();
-                }
+                leftMotorValue = leftStickY1 - leftStickX1;
+                rightMotorValue = leftStickY1 + leftStickX1;
+                leftMotorValue = Range.clip(leftMotorValue, -1, 1);
+                rightMotorValue = Range.clip(rightMotorValue, -1, 1);
+                Bruno.frontLeftMotor.setPower(leftMotorValue * speedMultiply);
+                Bruno.rearLeftMotor.setPower(leftMotorValue * speedMultiply);
+                Bruno.frontRightMotor.setPower(rightMotorValue * speedMultiply);
+                Bruno.rearRightMotor.setPower(rightMotorValue * speedMultiply);
                 break;
 
             case ARCADE2:
-
-                leftStickYVal = gamepad1.left_stick_y;
-                leftStickYVal = Range.clip(leftStickYVal, -1, 1);
-                leftStickXVal = gamepad1.left_stick_x;
-                leftStickXVal = Range.clip(leftStickXVal, -1, 1);
-                rightStickYVal = gamepad1.right_stick_y;
-                rightStickYVal = Range.clip(rightStickYVal, -1, 1);
-                rightStickXVal = gamepad1.right_stick_x;
-                rightStickXVal = Range.clip(rightStickXVal, -1, 1);
-
-                if (leftStickYVal < -0.1) {
-                    Bruno.tankDriveForward(speedMultiply*leftStickYVal);
-                } else if (leftStickYVal > 0.1) {
-                    Bruno.tankDriveBackward(speedMultiply*leftStickYVal);
-                } else {
-                    Bruno.stopMotors();
-                }
-                if (rightStickXVal > 0.1) {
-                    Bruno.tankTurnRight(speedMultiply*rightStickXVal);
-                } else if (rightStickXVal < -0.1) {
-                    Bruno.tankTurnLeft(speedMultiply*rightStickXVal);
-                } else {
-                    Bruno.stopMotors();
-                }
+                leftMotorValue = leftStickY1 - rightStickX1;
+                rightMotorValue = leftStickY1 + rightStickX1;
+                leftMotorValue = Range.clip(leftMotorValue, -1, 1);
+                rightMotorValue = Range.clip(rightMotorValue, -1, 1);
+                Bruno.frontLeftMotor.setPower(leftMotorValue * speedMultiply);
+                Bruno.rearLeftMotor.setPower(leftMotorValue * speedMultiply);
+                Bruno.frontRightMotor.setPower(rightMotorValue * speedMultiply);
+                Bruno.rearRightMotor.setPower(rightMotorValue * speedMultiply);
                 break;
 
             case TANK:
 
-                leftStickYVal = gamepad1.left_stick_y;
-                leftStickYVal = Range.clip(leftStickYVal, -1, 1);
-                rightStickYVal = gamepad1.right_stick_y;
-                rightStickYVal = Range.clip(rightStickYVal, -1, 1);
+                double powerFLM = leftStickY1 * speedMultiply;
+                double powerRLM = leftStickY1 * speedMultiply;
+                double powerFRM = rightStickY1 * speedMultiply;
+                double powerRRM = rightStickY1 * speedMultiply;
 
-                leftSidePower = speedMultiply * leftStickYVal * (-1);
-                rightSidePower = speedMultiply * rightStickYVal * (-1);
-                Bruno.tankDrive(leftSidePower,rightSidePower);
+                Bruno.frontLeftMotor.setPower(powerFLM);
+                Bruno.rearLeftMotor.setPower(powerRLM);
+                Bruno.frontRightMotor.setPower(powerFRM);
+                Bruno.rearRightMotor.setPower(powerRRM);
+
                 break;
         }
     }
