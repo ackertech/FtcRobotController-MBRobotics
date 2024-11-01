@@ -23,18 +23,6 @@ public class TankTeleOpDriveAdv extends OpMode {
     public double rightSidePower;
 
     // GamePad Variables
-    public double leftStickYVal;
-    public double leftStickXVal;
-    public double rightStickXVal;
-    public double rightStickYVal;
-
-    public double frontLeftSpeed;
-    public double frontRightSpeed;
-    public double rearLeftSpeed;
-    public double rearRightSpeed;
-
-    public double powerThreshold = 0;
-
     public float leftStickY1;
     public float rightStickY1;
     public float leftStickX1;
@@ -42,7 +30,6 @@ public class TankTeleOpDriveAdv extends OpMode {
 
     public double leftMotorValue;
     public double rightMotorValue;
-
 
     // Construct the Physical Bot based on the Robot Class
     public TankBot Bruno = new TankBot();
