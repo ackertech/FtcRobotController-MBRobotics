@@ -37,7 +37,7 @@ public class TankBot extends Tank_FourMotorDrive {
         frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
         rearRightMotor.setDirection(DcMotor.Direction.FORWARD);
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
-        rearLeftMotor.setDirection(DcMotor.Direction.FORWARD);
+        rearLeftMotor.setDirection(DcMotor.Direction.REVERSE);
 
         //Define this robot run modes
         setMotorRunModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
