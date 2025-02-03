@@ -10,18 +10,19 @@ public class CandyBot extends CandyBot_Drive {
 
     public HardwareMap hwBot = null;
 
-    // Motors
+    // Motors for Mechanisms
     public DcMotor wormGear;
     public DcMotor linearActuator;
     public DcMotor flyWheel1;
     public DcMotor flyWheel2;
 
 
-    // Servos
+    // Servos for Mechanisms
     public Servo servo1;
     public Servo servo2;
     public Servo servo3;
 
+    // Constructor for Physical Robot
     public CandyBot() {}
 
     // **** Initialize Drivetrain Hardware ****

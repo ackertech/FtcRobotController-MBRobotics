@@ -17,8 +17,6 @@ public class CandyBot_TeleOp extends OpMode {
     }
 
     public Style driverStyle = Style.ARCADE1;
-    public double leftSidePower;
-    public double rightSidePower;
 
     // GamePad Variables
     public float leftStickY1;
@@ -28,6 +26,8 @@ public class CandyBot_TeleOp extends OpMode {
 
     public double leftMotorValue;
     public double rightMotorValue;
+    public double leftSidePower;
+    public double rightSidePower;
 
     // Construct the Physical Bot based on the Robot Class
     public CandyBot Bot = new CandyBot();
