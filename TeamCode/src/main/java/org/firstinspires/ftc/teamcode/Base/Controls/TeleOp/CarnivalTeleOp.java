@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Base.Robot.CarnivalBot;
 
-//@Disabled
+@Disabled
 @TeleOp (name = "Carnival Bot")
 public class CarnivalTeleOp extends OpMode {
 
