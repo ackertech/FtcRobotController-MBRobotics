@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Base.Robot;
+package org.firstinspires.ftc.teamcode.Robotics_Class.CandyBot;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.Base.Drivetrains.Carnival_Drive;
 
-public class CandyBot extends Carnival_Drive {
+public class CandyBot extends CandyBot_Drive {
 
     public HardwareMap hwBot = null;
 
