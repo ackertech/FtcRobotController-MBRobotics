@@ -6,9 +6,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 
 //@Disabled
-@TeleOp(name = "Candy Launcher",group="iLab")
+@TeleOp(name = "CandyBot",group="iLab")
 
-public class CandyLauncherTeleOp extends OpMode {
+public class CandyBot_TeleOp extends OpMode {
 
     //TeleOp Driving Behavior Variables
     public double speedMultiply = 1;
