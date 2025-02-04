@@ -40,6 +40,7 @@ public class CandyBot_TeleOp extends OpMode {
         Bot.initDrive(hardwareMap);
         Bot.initFlyWheels(hardwareMap);
         Bot.initLinearActuator(hardwareMap);
+        Bot.initWormGear(hardwareMap);
         Bot.initServo1(hardwareMap);
         Bot.initServo2(hardwareMap);
         Bot.initServo3(hardwareMap);
