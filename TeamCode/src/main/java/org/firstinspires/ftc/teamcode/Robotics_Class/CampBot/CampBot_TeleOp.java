@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Robotics_Class.CandyBot;
+package org.firstinspires.ftc.teamcode.Robotics_Class.CampBot;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -6,12 +6,12 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 
 //@Disabled
-@TeleOp(name = "CandyBot",group="iLab")
+@TeleOp(name = "CampBot",group="iLab")
 
-public class CandyBot_TeleOp extends OpMode {
+public class CampBot_TeleOp extends OpMode {
 
     //TeleOp Driving Behavior Variables
-    public double speedMultiply = 1;
+    public double speedMultiply = 1.0;
     public enum Style {
         ARCADE1, ARCADE2, TANK
     }
@@ -30,7 +30,7 @@ public class CandyBot_TeleOp extends OpMode {
     public double rightSidePower;
 
     // Construct the Physical Bot based on the Robot Class
-    public CandyBot Bot = new CandyBot();
+    public CampBot Bot = new CampBot();
 
 
     // TeleOp Initialize Method.  This is the Init Button on the Driver Station Phone
@@ -38,9 +38,9 @@ public class CandyBot_TeleOp extends OpMode {
     public void init() {
 
         Bot.initDrive(hardwareMap);
-        Bot.initFlyWheels(hardwareMap);
-        Bot.initLinearActuator(hardwareMap);
-        Bot.initWormGear(hardwareMap);
+        Bot.initMotors(hardwareMap);
+        //Bot.initLinearActuator(hardwareMap);
+        //Bot.initWormGear(hardwareMap);
         Bot.initServo1(hardwareMap);
         Bot.initServo2(hardwareMap);
         Bot.initServo3(hardwareMap);
@@ -62,9 +62,10 @@ public class CandyBot_TeleOp extends OpMode {
         driveControl();
 
         //Mechanism Comtroller Methods
-        flyWheelControl();
-        linearActuatorControl();
-        wormGearControl();
+        motor1Control();
+        motor2Control();
+        //linearActuatorControl();
+        //wormGearControl();
         servoOneControl();
         servoTwoControl();
         servoThreeControl();
@@ -79,14 +80,12 @@ public class CandyBot_TeleOp extends OpMode {
     public void telemetryOutput() {
         telemetry.addData("Drive Mode: ", driverStyle);
         telemetry.addData("Speed: ", speedMultiply);
-        telemetry.addData("Front Left Motor Power: ", Bot.frontLeftMotor.getPower());
-        telemetry.addData("Rear Left Motor Power: ", Bot.rearLeftMotor.getPower());
-        telemetry.addData("Front Right Motor Power: ", Bot.frontRightMotor.getPower());
-        telemetry.addData("Rear Right Motor Power: ", Bot.rearRightMotor.getPower());
-        telemetry.addData("Fly Wheel 1: ", Bot.flyWheel1.getPower());
-        telemetry.addData("Fly Wheel 2: ", Bot.flyWheel2.getPower());
-        telemetry.addData("Worm Gear: ", Bot.wormGear.getPower());
-        telemetry.addData("Linear Actuator: ", Bot.linearActuator.getPower());
+        telemetry.addData("Left Motor Power: ", Bot.driveLeftMotor.getPower());
+        telemetry.addData("Right Motor Power: ", Bot.driveRightMotor.getPower());
+        telemetry.addData("Motor 1: ", Bot.motor1.getPower());
+        telemetry.addData("Motor 2: ", Bot.motor2.getPower());
+        //telemetry.addData("Worm Gear: ", Bot.wormGear.getPower());
+        //telemetry.addData("Linear Actuator: ", Bot.linearActuator.getPower());
         telemetry.addData("Servo 1: ", Bot.servo1.getPosition());
         telemetry.addData("Servo 2: ", Bot.servo2.getPosition());
         telemetry.addData("Servo 3: ", Bot.servo3.getPosition());
@@ -97,23 +96,23 @@ public class CandyBot_TeleOp extends OpMode {
     /**  ********  DRIVING METHODS USING GAMEPAD 1 *************      **/
 
     public void getController() {
-        leftStickY1 = gamepad1.left_stick_y;
+        leftStickY1 = -gamepad1.left_stick_y;
         leftStickX1 = gamepad1.left_stick_x;
-        rightStickY1 = gamepad1.right_stick_y;
+        rightStickY1 = -gamepad1.right_stick_y;
         rightStickX1 = gamepad1.right_stick_x;
     }
 
     public void driveControl() {
 
-        if (gamepad1.a) {
-            driverStyle = Style.ARCADE1;
-        }
-        if (gamepad1.b) {
-            driverStyle = Style.ARCADE2;
-        }
-        if (gamepad1.y) {
-            driverStyle = Style.TANK;
-        }
+//        if (gamepad1.a) {
+//            driverStyle = Style.ARCADE1;
+//        }
+//        if (gamepad1.b) {
+//            driverStyle = Style.ARCADE2;
+//        }
+//        if (gamepad1.y) {
+//            driverStyle = Style.TANK;
+//        }
 
         switch (driverStyle) {
 
@@ -123,10 +122,8 @@ public class CandyBot_TeleOp extends OpMode {
                 rightMotorValue = leftStickY1 + leftStickX1;
                 leftMotorValue = Range.clip(leftMotorValue, -1, 1);
                 rightMotorValue = Range.clip(rightMotorValue, -1, 1);
-                Bot.frontLeftMotor.setPower(leftMotorValue * speedMultiply);
-                Bot.rearLeftMotor.setPower(leftMotorValue * speedMultiply);
-                Bot.frontRightMotor.setPower(rightMotorValue * speedMultiply);
-                Bot.rearRightMotor.setPower(rightMotorValue * speedMultiply);
+                Bot.driveLeftMotor.setPower(leftMotorValue * speedMultiply);
+                Bot.driveRightMotor.setPower(rightMotorValue * speedMultiply);
                 break;
 
             case ARCADE2:
@@ -134,10 +131,8 @@ public class CandyBot_TeleOp extends OpMode {
                 rightMotorValue = leftStickY1 + rightStickX1;
                 leftMotorValue = Range.clip(leftMotorValue, -1, 1);
                 rightMotorValue = Range.clip(rightMotorValue, -1, 1);
-                Bot.frontLeftMotor.setPower(leftMotorValue * speedMultiply);
-                Bot.rearLeftMotor.setPower(leftMotorValue * speedMultiply);
-                Bot.frontRightMotor.setPower(rightMotorValue * speedMultiply);
-                Bot.rearRightMotor.setPower(rightMotorValue * speedMultiply);
+                Bot.driveLeftMotor.setPower(leftMotorValue * speedMultiply);
+                Bot.driveRightMotor.setPower(rightMotorValue * speedMultiply);
                 break;
 
             case TANK:
@@ -147,43 +142,56 @@ public class CandyBot_TeleOp extends OpMode {
                 double powerFRM = rightStickY1 * speedMultiply;
                 double powerRRM = rightStickY1 * speedMultiply;
 
-                Bot.frontLeftMotor.setPower(powerFLM);
-                Bot.rearLeftMotor.setPower(powerRLM);
-                Bot.frontRightMotor.setPower(powerFRM);
-                Bot.rearRightMotor.setPower(powerRRM);
+                Bot.driveLeftMotor.setPower(powerRLM);
+                Bot.driveRightMotor.setPower(powerRRM);
 
                 break;
         }
     }
 
     public void speedControl () {
-            if (gamepad1.dpad_right) {
-                speedMultiply = 0.25;
-            } else if (gamepad1.dpad_down) {
+            if (gamepad1.a) {
                 speedMultiply = 0.50;
-            } else if (gamepad1.dpad_left) {
-                speedMultiply = 0.75;
-            } else if (gamepad1.dpad_up) {
+            } else if (gamepad1.b) {
                 speedMultiply = 1.00;
             }
+//            else if (gamepad1.dpad_left) {
+//                speedMultiply = 0.75;
+//            } else if (gamepad1.dpad_up) {
+//                speedMultiply = 1.00;
+//            }
     }
 
     /**  ********  DRIVING METHODS USING GAMEPAD 2 *************      **/
 
 
-    public void flyWheelControl()
+    public void motor1Control()
+    {
+        if (gamepad1.left_trigger > 0.1) {
+            Bot.rotateMotor1(1.0);
+        }
+        else if (gamepad2.right_trigger > 0.1) {
+            Bot.rotateMotor1(-1.0);
+        }
+        else
+        {
+            Bot.stopMotor1();
+        }
+    }
+    public void motor2Control()
     {
         if (gamepad2.left_bumper) {
-            Bot.rotateFlyWheel1(1.0);
-            Bot.rotateFlyWheel2(-1.0);
+            Bot.rotateMotor2(1.0);
         }
-
-        if (gamepad2.right_bumper) {
-            Bot.stopFlyWheel1();
-            Bot.stopFlyWheel2();
+        else if (gamepad2.right_bumper) {
+            Bot.rotateMotor2(-1.0);
         }
-
+        else
+        {
+            Bot.stopMotor2();
+        }
     }
+
 
     public void wormGearControl()
     {
@@ -214,31 +222,31 @@ public class CandyBot_TeleOp extends OpMode {
     }
 
     public void servoOneControl() {
-        if (gamepad2.y) {
+        if (gamepad1.left_bumper) {
             Bot.extendServo1();
         }
 
-        if (gamepad2.x) {
+        if (gamepad1.right_bumper) {
             Bot.retractServo1();
         }
     }
 
     public void servoTwoControl() {
-        if (gamepad2.a) {
+        if (gamepad1.dpad_down) {
             Bot.extendServo2();
         }
 
-        if (gamepad2.b) {
+        if (gamepad1.dpad_up) {
             Bot.retractServo2();
         }
     }
 
     public void servoThreeControl() {
-        if (gamepad2.dpad_left) {
+        if (gamepad1.dpad_left) {
             Bot.extendServo3();
         }
 
-        if (gamepad2.dpad_right) {
+        if (gamepad1.dpad_right) {
             Bot.retractServo3();
         }
     }
