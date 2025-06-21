@@ -1,15 +1,12 @@
 package org.firstinspires.ftc.teamcode.Base.Controls.TeleOp;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
-
-import org.firstinspires.ftc.teamcode.BNI_Team.Connor.Robots.The_Mighty_and_All_Powerful_Hand;
 import org.firstinspires.ftc.teamcode.Base.Robot.WalleBot;
 
-@Disabled
-@TeleOp(name = "Christmas: WALL-E",group="iLab")
+//@Disabled
+@TeleOp(name = "WALL-E Basic",group="iLab")
 public class WALL_E_TeleOp_Basic extends OpMode {
 
     public double speedMultiply = 0.50;
@@ -18,11 +15,10 @@ public class WALL_E_TeleOp_Basic extends OpMode {
     public double rightSidePower;
 
     public double linearMotorPower = 0.85;
-    boolean clawOpen = false;
+    boolean leftClawOpen = false;
+    boolean rightClawOpen = false;
 
     public double lazySusanPower = 0.90;
-
-    public The_Mighty_and_All_Powerful_Hand Hand = new The_Mighty_and_All_Powerful_Hand();
 
     double leftStickYVal;
     double leftStickXVal;
@@ -45,13 +41,10 @@ public class WALL_E_TeleOp_Basic extends OpMode {
 
     public void dpadControl() {
 
-        if (gamepad1.dpad_right == true) {
-            speedMultiply = 0.75;
-        } else if (gamepad1.dpad_down == true) {
+        if (gamepad1.dpad_down) {
             speedMultiply = 0.50;
-        } else if (gamepad1.dpad_left == true) {
-            speedMultiply = 0.25;
-        } else if (gamepad1.dpad_up == true) {
+        }
+        else if (gamepad1.dpad_up) {
             speedMultiply = 1.00;
         }
 
@@ -72,9 +65,9 @@ public class WALL_E_TeleOp_Basic extends OpMode {
 
     }
         public void headControl() {
-            if (gamepad1.right_stick_x < -0.1) {
+            if (gamepad1.dpad_left) {
                 WALL_E.lazySusanLeft(lazySusanPower);
-            } else if (gamepad1.right_stick_x > 0.1) {
+            } else if (gamepad1.dpad_right) {
                 WALL_E.lazySusanRight(lazySusanPower);
             } else {
                 WALL_E.lazySusanStop();
@@ -103,16 +96,29 @@ public class WALL_E_TeleOp_Basic extends OpMode {
                 }
 
                 if (gamepad1.y) {
-                    clawOpen = true;
+                    leftClawOpen = true;
 
                 } else {
-                    clawOpen = false;
+                    leftClawOpen = false;
                 }
-                if (clawOpen == true) {
+                if (leftClawOpen) {
                     WALL_E.leftClawOpen();
-                } else if (clawOpen == false) {
+                } else  {
                     WALL_E.leftClawClose();
                 }
+
+        if (gamepad1.a) {
+            rightClawOpen = true;
+
+        } else {
+            rightClawOpen = false;
+        }
+        if (rightClawOpen) {
+            WALL_E.rightClawOpen();
+        } else  {
+            WALL_E.rightClawClose();
+        }
+
 
     }
 

@@ -3,20 +3,28 @@ package org.firstinspires.ftc.teamcode.Robotics_Class.CampBot;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 //@Disabled
-@TeleOp(name = "CampBot",group="iLab")
+@TeleOp(name = "CampBot: Single Driver",group="iLab")
 
-public class CampBot_TeleOp extends OpMode {
+public class CampBot_TeleOpSingle extends OpMode {
 
     //TeleOp Driving Behavior Variables
     public double speedMultiply = 1.0;
     public enum Style {
         ARCADE1, ARCADE2, TANK
     }
-
     public Style driverStyle = Style.ARCADE1;
+
+    public enum LoadStates {
+        READY, OPEN_GATE, DELAY1, LOAD_BUCKET, DELAY2, UNLOAD_BUCKET, DELAY3, CLOSE_GATE
+    }
+
+    public LoadStates loadState = LoadStates.READY;
+
+    ElapsedTime timer = new ElapsedTime();
 
     // GamePad Variables
     public float leftStickY1;
@@ -29,6 +37,12 @@ public class CampBot_TeleOp extends OpMode {
     public double leftSidePower;
     public double rightSidePower;
 
+    //
+    public boolean servo1Ready = true;
+    public boolean servo2Ready = true;
+    public boolean servo3Ready= true;
+
+
     // Construct the Physical Bot based on the Robot Class
     public CampBot Bot = new CampBot();
 
@@ -39,8 +53,6 @@ public class CampBot_TeleOp extends OpMode {
 
         Bot.initDrive(hardwareMap);
         Bot.initMotors(hardwareMap);
-        //Bot.initLinearActuator(hardwareMap);
-        //Bot.initWormGear(hardwareMap);
         Bot.initServo1(hardwareMap);
         Bot.initServo2(hardwareMap);
         Bot.initServo3(hardwareMap);
@@ -56,19 +68,20 @@ public class CampBot_TeleOp extends OpMode {
 
     public void loop() {
 
-        //Drive Comtroller Methods
+        //Drive Controller Methods
         getController();
         speedControl();
         driveControl();
 
-        //Mechanism Comtroller Methods
+        //Manual Mechanism Controller Methods
         motor1Control();
         motor2Control();
-        //linearActuatorControl();
-        //wormGearControl();
         servoOneControl();
         servoTwoControl();
         servoThreeControl();
+
+        //Load Controller Methods using States
+        loadStateControl();
 
         //Telemetry Controller
         telemetryOutput();
@@ -155,11 +168,6 @@ public class CampBot_TeleOp extends OpMode {
             } else if (gamepad1.b) {
                 speedMultiply = 1.00;
             }
-//            else if (gamepad1.dpad_left) {
-//                speedMultiply = 0.75;
-//            } else if (gamepad1.dpad_up) {
-//                speedMultiply = 1.00;
-//            }
     }
 
     /**  ********  DRIVING METHODS USING GAMEPAD 2 *************      **/
@@ -170,7 +178,7 @@ public class CampBot_TeleOp extends OpMode {
         if (gamepad1.left_trigger > 0.1) {
             Bot.rotateMotor1(1.0);
         }
-        else if (gamepad2.right_trigger > 0.1) {
+        else if (gamepad1.right_trigger > 0.1) {
             Bot.rotateMotor1(-1.0);
         }
         else
@@ -193,34 +201,7 @@ public class CampBot_TeleOp extends OpMode {
     }
 
 
-    public void wormGearControl()
-    {
-        if (gamepad2.left_trigger > 0.1) {
-            Bot.wormGearRotateForward(0.90);
-        }
-        else if (gamepad2.right_trigger > 0.1) {
-            Bot.wormGearRotateReverse(-0.90);
-        }
-        else
-        {
-            Bot.wormGearStop();
-        }
-    }
-
-    public void linearActuatorControl() {
-        if (gamepad2.dpad_up) {
-            Bot.extendLinear(.90);
-        }
-        else if (gamepad2.dpad_up) {
-            Bot.retractLinear(90);
-        }
-        else
-        {
-            Bot.stopLinear();
-        }
-
-    }
-
+    // Flag or Rubber Duck Hook
     public void servoOneControl() {
         if (gamepad1.left_bumper) {
             Bot.extendServo1();
@@ -231,16 +212,15 @@ public class CampBot_TeleOp extends OpMode {
         }
     }
 
+   // Rubber Duck Bucket Lift
     public void servoTwoControl() {
-        if (gamepad1.dpad_down) {
-            Bot.extendServo2();
+        if (gamepad1.dpad_up) {
+               loadStateControl();
         }
 
-        if (gamepad1.dpad_up) {
-            Bot.retractServo2();
-        }
     }
 
+    // Rubber Duck Capture Gate
     public void servoThreeControl() {
         if (gamepad1.dpad_left) {
             Bot.extendServo3();
@@ -251,6 +231,47 @@ public class CampBot_TeleOp extends OpMode {
         }
     }
 
+    // State Controller
+    public void loadStateControl() {
+        switch (loadState) {
+            case OPEN_GATE:
+                Bot.extendServo3();
+                loadState = LoadStates.DELAY1;
+                timer.reset();
+                break;
+            case DELAY1:
+                if (timer.time() > .5) {
+                    loadState = LoadStates.UNLOAD_BUCKET;
+                }
+                break;
+            case UNLOAD_BUCKET:
+                Bot.retractServo2();
+                loadState = LoadStates.DELAY2;
+                timer.reset();
+                break;
+            case DELAY2:
+                if (timer.time() > .5) {
+                    loadState = LoadStates.LOAD_BUCKET;
+                }
+                break;
+            case LOAD_BUCKET:
+                Bot.extendServo2();
+                loadState = LoadStates.DELAY3;
+                timer.reset();
+                break;
+            case DELAY3:
+                if (timer.time() > .5) {
+                    loadState = LoadStates.CLOSE_GATE;
+                }
+                break;
+            case CLOSE_GATE:
+                Bot.retractServo3();
+                loadState = LoadStates.READY;
+                break;
+            case READY:
+                break;
+        }
+    }
 
 
 
