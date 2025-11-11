@@ -81,11 +81,11 @@ public class SpeedySnailCarnivalTeleOp extends OpMode {
 
     public void balloonPopperControl() {
         if (gamepad1.left_bumper) {
-            bot.extendBalloonPopper();
+            bot.extendServo1();
         }
 
         if (gamepad1.right_bumper) {
-            bot.retractBalloonPopper();
+            bot.retractServo1();
         }
 
     }
@@ -171,13 +171,13 @@ public class SpeedySnailCarnivalTeleOp extends OpMode {
     public void flyWheelControl()
     {
         if (gamepad2.left_bumper) {
-            bot.rotateFlyWheel1(1.0);
-            bot.rotateFlyWheel2(-1.0);
+            bot.rotateMotor1(1.0);
+            bot.rotateMotor2(-1.0);
         }
 
         if (gamepad2.right_bumper) {
-            bot.stopFlyWheel1();
-            bot.stopFlyWheel2();
+            bot.stopMotor1();
+            bot.stopMotor2();
         }
 
     }
@@ -212,11 +212,11 @@ public class SpeedySnailCarnivalTeleOp extends OpMode {
 
     public void discPusherControl() {
         if (gamepad2.y) {
-            bot.extendFully();
+            bot.extendServo2();
         }
 
         if (gamepad2.x) {
-            bot.retractFully();
+            bot.retractServo2();
         }
 
     }
@@ -225,11 +225,11 @@ public class SpeedySnailCarnivalTeleOp extends OpMode {
 
     public void servoTwoControl() {
         if (gamepad1.a) {
-            bot.extendBalloonPopper();
+            bot.extendServo1();
         }
 
         if (gamepad1.b) {
-            bot.retractBalloonPopper();
+            bot.retractServo1();
         }
 
     }

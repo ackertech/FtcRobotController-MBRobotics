@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 //@Disabled
-@TeleOp(name = "CampBot: Two Driver",group="iLab")
+@TeleOp(name = "CampBot: Two Driver")
 
 public class CampBot_TeleOpMultiple extends OpMode {
 

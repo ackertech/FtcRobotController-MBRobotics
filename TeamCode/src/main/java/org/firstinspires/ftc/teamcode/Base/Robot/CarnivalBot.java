@@ -14,14 +14,14 @@ public class CarnivalBot extends Carnival_Drive {
     // Motors
     public DcMotor wormGear;
     public DcMotor linearActuator;
-    public DcMotor flyWheel1;
-    public DcMotor flyWheel2;
+    public DcMotor motor1;
+    public DcMotor motor2;
 
 
     // Servos
-    public Servo discPusher = null;
-    public Servo balloonPopper;
-    public Servo servoTwo;
+    public Servo servo2 = null;
+    public Servo servo1;
+    public Servo servo3;
 
     public CarnivalBot() {}
 
@@ -51,15 +51,15 @@ public class CarnivalBot extends Carnival_Drive {
     }
 
     // **** Initialize Fly Wheel Hardware ****
-    public void initFlyWheels(HardwareMap hwMap) {
+    public void initMotorss(HardwareMap hwMap) {
         hwBot = hwMap;
-        flyWheel1 = hwBot.dcMotor.get("fly_wheel_one");
-        flyWheel1.setDirection(DcMotorSimple.Direction.FORWARD);
-        flyWheel1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motor1 = hwBot.dcMotor.get("motor1");
+        motor1.setDirection(DcMotorSimple.Direction.FORWARD);
+        motor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        flyWheel2 = hwBot.dcMotor.get("fly_wheel_two");
-        flyWheel2.setDirection(DcMotorSimple.Direction.FORWARD);
-        flyWheel2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motor2 = hwBot.dcMotor.get("motor2");
+        motor2.setDirection(DcMotorSimple.Direction.FORWARD);
+        motor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
 
@@ -82,42 +82,42 @@ public class CarnivalBot extends Carnival_Drive {
     }
 
     // **** Initialize Balloon Popper Hardware ****
-    public void initBalloonPopper(HardwareMap hwMap) {
+    public void initServo1(HardwareMap hwMap) {
         hwBot = hwMap;
-        balloonPopper = hwBot.get(Servo.class, "balloon_popper");
-        balloonPopper.setDirection(Servo.Direction.FORWARD);
+        servo1 = hwBot.get(Servo.class, "servo1");
+        servo1.setDirection(Servo.Direction.FORWARD);
     }
 
     // **** Initialize Disc Pusher Hardware ****
-    public void initDiscPusher(HardwareMap hwMap) {
+    public void initServo2(HardwareMap hwMap) {
         hwBot = hwMap;
-        discPusher = hwBot.get(Servo.class, "disc_pusher");
-        discPusher.setDirection(Servo.Direction.FORWARD);
+        servo2 = hwBot.get(Servo.class, "servo2");
+        servo2.setDirection(Servo.Direction.FORWARD);
     }
 
     // **** Initialize Additional Servo Hardware ****
-    public void initServoTwo(HardwareMap hwMap) {
+    public void initServo3(HardwareMap hwMap) {
         hwBot = hwMap;
-        servoTwo = hwBot.get(Servo.class, "catapult");
-        servoTwo.setDirection(Servo.Direction.FORWARD);
+        servo3 = hwBot.get(Servo.class, "servo3");
+        servo3.setDirection(Servo.Direction.FORWARD);
     }
 
 
     // **** Movement Methods for Fly Wheels ****
-    public void rotateFlyWheel1 (double power) {
-        flyWheel1.setPower(power);
+    public void rotateMotor1(double power) {
+        motor1.setPower(power);
     }
 
-    public void rotateFlyWheel2 (double power) {
-        flyWheel2.setPower(power);
+    public void rotateMotor2(double power) {
+        motor2.setPower(power);
     }
 
-    public void stopFlyWheel1 () {
-        flyWheel1.setPower(0);
+    public void stopMotor1() {
+        motor1.setPower(0);
     }
 
-    public void stopFlyWheel2 () {
-        flyWheel2.setPower(0);
+    public void stopMotor2() {
+        motor2.setPower(0);
     }
 
     // **** Movement Methods for Worm Gear ****
@@ -146,32 +146,31 @@ public class CarnivalBot extends Carnival_Drive {
         linearActuator.setPower(0);
     }
 
-    // **** Movement Methods for Disc Pusher ****
-    public void extendFully() {
-        discPusher.setPosition(0.8);
+    // **** Movement Methods for Servo 2 ****
+    public void extendServo2() {
+        servo2.setPosition(0.8);
     }
-    public void extendPartially() {
-        discPusher.setPosition(0.5);
+    public void extendServo2Partially() {
+        servo2.setPosition(0.5);
     }
-    public void retractFully() {
-        discPusher.setPosition(0.2);
-    }
-
-
-    // **** Movement Methods for Balloon Popper ****
-    public void extendBalloonPopper() {
-        balloonPopper.setPosition(0.8);
-    }
-    public void retractBalloonPopper() {
-        balloonPopper.setPosition(0.1);
+    public void retractServo2() {
+        servo2.setPosition(0.2);
     }
 
 
-    // **** Movement Methods for Servo Two ****
-    public void extendServoTwo() {servoTwo.setPosition(0.8);}
-    public void retractServoTwo() {
-        servoTwo.setPosition(0.1);
+    // **** Movement Methods for Servo 1 ****
+    public void extendServo1() { servo1.setPosition(0.8); }
+    public void extendServo1Partially() {
+        servo2.setPosition(0.5);
     }
+    public void retractServo1() {servo1.setPosition(0.2);
+    }
+
+
+    // **** Movement Methods for Servo 3 ****
+    public void extendServo3() { servo3.setPosition(0.8);}
+    public void extendServo3Partially() { servo3.setPosition(0.5);}
+    public void retractServo3() { servo3.setPosition(0.2);}
 
 
 

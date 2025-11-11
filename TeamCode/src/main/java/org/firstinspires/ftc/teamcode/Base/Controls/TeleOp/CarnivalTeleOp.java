@@ -1,14 +1,13 @@
 package org.firstinspires.ftc.teamcode.Base.Controls.TeleOp;
 
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Base.Robot.CarnivalBot;
 
-@Disabled
+//@Disabled
 @TeleOp (name = "Carnival Bot")
 public class CarnivalTeleOp extends OpMode {
 
@@ -36,12 +35,8 @@ public class CarnivalTeleOp extends OpMode {
     @Override
     public void init () {
         bot.initDrive(hardwareMap);
-     //    bot.initFlyWheels(hardwareMap);
-     //   bot.initWormGear(hardwareMap);
-     //   bot.initLinearActuator(hardwareMap);
-     //   bot.initBalloonPopper(hardwareMap);
-    //    bot.initDiscPusher(hardwareMap);
-    //    bot.initServoTwo(hardwareMap);
+        bot.initServo1(hardwareMap);
+        //bot.initServo2(hardwareMap);
     }
 
     @Override
@@ -49,12 +44,8 @@ public class CarnivalTeleOp extends OpMode {
         speedControl();
         driverStyleControl();
         driveControl();
-//        flyWheelControl();
-//        wormGearControl();
-//        linearActuatorControl();
-//        discPusherControl();
-//        balloonPopperControl();
-//        servoTwoControl();
+        servoOneControl();
+
 
     }
 
@@ -79,13 +70,24 @@ public class CarnivalTeleOp extends OpMode {
     }
 
 
-    public void balloonPopperControl() {
+    public void servoOneControl() {
         if (gamepad1.left_bumper) {
-            bot.extendBalloonPopper();
+            bot.extendServo1();
         }
 
         if (gamepad1.right_bumper) {
-            bot.retractBalloonPopper();
+            bot.retractServo1();
+        }
+
+    }
+
+    public void servoTwoControl() {
+        if (gamepad1.a) {
+            bot.extendServo2();
+        }
+
+        if (gamepad1.b) {
+            bot.retractServo2();
         }
 
     }
@@ -171,13 +173,13 @@ public class CarnivalTeleOp extends OpMode {
     public void flyWheelControl()
     {
         if (gamepad2.left_bumper) {
-            bot.rotateFlyWheel1(1.0);
-            bot.rotateFlyWheel2(-1.0);
+            bot.rotateMotor1(1.0);
+            bot.rotateMotor2(-1.0);
         }
 
         if (gamepad2.right_bumper) {
-            bot.stopFlyWheel1();
-            bot.stopFlyWheel2();
+            bot.stopMotor1();
+            bot.stopMotor2();
         }
 
     }
@@ -210,29 +212,9 @@ public class CarnivalTeleOp extends OpMode {
 
      }
 
-    public void discPusherControl() {
-        if (gamepad2.y) {
-            bot.extendFully();
-        }
-
-        if (gamepad2.x) {
-            bot.retractFully();
-        }
-
-    }
 
 
 
-    public void servoTwoControl() {
-        if (gamepad1.a) {
-            bot.extendBalloonPopper();
-        }
-
-        if (gamepad1.b) {
-            bot.retractBalloonPopper();
-        }
-
-    }
 
 
 
